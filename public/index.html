@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="icon" href="./favicons.ico" type="image/x-icon">
+    <title>空城里Admin</title>
+  </head>
+  <body>
+    <div id="app">
+      <style>
+        @keyframes load{
+          0%{transform:translateY(0)}
+          16%{transform:translateY(-22px)}
+          40%{transform:translateY(0)}
+        }
+        @keyframes load2{
+          20%{transform:translateY(0)}
+          36%{transform:translateY(-22px)}
+          60%{transform:translateY(0)}
+        }
+        @keyframes loadMiorr{
+          40%{transform:scale(-1) translateY(20px)}
+          56%{transform:scale(-1) translateY(40px)}
+          80%{transform:scale(-1) translateY(20px)}
+        }
+        @keyframes loadMiorr2{
+          60%{transform:scale(-1) translateY(0)}
+          76%{transform:scale(-1) translateY(22px)}
+          100%{transform:scale(-1) translateY(0)}
+        }
+        .loading{
+          margin: 200px auto;
+          display:flex;
+          justify-content:center;
+          align-items:flex-end;
+          width:177px;
+          height:163px;
+          padding:0 23px 28px;
+          transform: scale(.5)
+        }
+        .loading-item{
+          width:24px;
+          min-height:60px;
+          clip-path:polygon(0 0,100% 6px,100% calc(100% - 6px),0 100%)
+        }
+        .loading-item+.loading-item{
+          margin-left:12px
+        }
+        .loading-item__1{
+          height:100px;
+          background-color:#2859ba;
+          animation:load .833s linear infinite
+        }
+        .loading-item__2{
+          background-color:#148bff;
+          animation:load2 .833s linear infinite
+        }
+        .loading-item__3{
+          transform:translateY(40px);
+          background-color:#00cbd5;
+          transform:scale(-1) translateY(20px);
+          animation:loadMiorr .833s linear infinite
+        }
+        .loading-item__4{
+          height:100px;
+          background-color:
+          #43e9dd;transform:scale(-1);
+          animation:loadMiorr2 .833s linear infinite
+        }
+      </style>
+      <div class="loading">
+        <div class="loading-item loading-item__1"></div>
+        <div class="loading-item loading-item__2"></div>
+        <div class="loading-item loading-item__3"></div>
+        <div class="loading-item loading-item__4"></div>
+      </div>
+    </div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
