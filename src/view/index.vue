@@ -5,14 +5,28 @@
 </template>
 
 <script>
+import router from '@/router'
 export default {
   name: 'App',
+
+  beforeRouteEnter (to, from, next) {
+    setTimeout(() => {
+      let i = 1
+      router.push({
+        path: `model${i}`
+      })
+    }, 1000)
+    next()
+  },
+
   data () {
     return {
 
     }
   },
   methods: {
+
+    // getAc
   }
 }
 </script>

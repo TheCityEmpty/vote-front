@@ -60,7 +60,7 @@ export default {
   },
 
   created () {
-    this.getCode()
+    // this.getCode()
     // this.testGetCode()
   },
   methods: {

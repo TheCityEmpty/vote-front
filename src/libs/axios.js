@@ -1,7 +1,6 @@
 import axios from 'axios'
 // import router from '@/router'
 // import Cookies from 'js-cookie'
-import { Message } from 'iview'
 
 const envConfig = {
   production: '/app',
@@ -69,8 +68,8 @@ http.interceptors.response.use(function (res) {
   // }
   return Promise.resolve(res.data)
 }, function (error) {
-  Message.destroy()
-  Message.error('服务内部错误!')
+  // Message.destroy()
+  // Message.error('服务内部错误!')
   return Promise.reject(error)
 })
 export default http

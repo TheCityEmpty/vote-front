@@ -3,6 +3,9 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import Vant from 'vant'
+import 'vant/lib/index.css'
+
 /**
  * @description 字体图标
  */
@@ -12,11 +15,6 @@ import store from './store'
  * @description 引入自定义组件
  */
 import Loading from '@_com/Loading'
-/**
- * @description 引入iview 组件
- */
-import iView from 'iview'
-import 'iview/dist/styles/iview.css'
 
 /**
  * @description 引入 全局css  混入，config 等
@@ -27,8 +25,9 @@ import '@/mixins'
 import config from '@/config'
 import { http } from './libs/axios'
 
+Vue.use(Vant)
+
 Vue.use(Loading)
-Vue.use(iView)
 Vue.config.productionTip = false
 Vue.prototype.$config = config
 Vue.prototype.$http = http // 全局注册，使用方法为:this.$http
