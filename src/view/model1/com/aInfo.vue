@@ -75,7 +75,7 @@ export default {
   methods: {
     goto () {
       this.$router.push({
-        path: '/records',
+        path: '/records1',
         query: {
           id: this.$route.query.id
         }

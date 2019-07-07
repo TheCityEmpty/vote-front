@@ -11,10 +11,10 @@ import { queryActivity } from '@/api'
 import store from '../store'
 export default {
   name: 'App',
-
   beforeRouteEnter (to, from, next) {
     let id = to.query.id
     queryActivity({ id: id }).then(res => {
+      console.log('aa')
       let info = res.data
       if (Number(info.activityType) === 0) {
         router.push({
@@ -24,8 +24,19 @@ export default {
         info.adImg = JSON.parse(info.adImg)
         info.img = JSON.parse(info.img)
         store.commit('setActiveInfo', res.data)
+        let path = ''
+
+        if (to.path) {
+          if (to.name === 'info') {
+            path = `${to.path}${res.data.model}`
+          } else {
+            path = to.path
+          }
+        } else {
+          path = `model${res.data.model}`
+        }
         router.push({
-          path: `model${res.data.model}`,
+          path: path,
           query: {
             id: id
           }
@@ -34,16 +45,6 @@ export default {
       document.title = info.name
     })
     next()
-  },
-
-  data () {
-    return {
-
-    }
-  },
-  methods: {
-
-    // getAc
   }
 }
 </script>

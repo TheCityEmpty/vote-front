@@ -72,9 +72,9 @@ export default {
         img: this.fileList.map(item => item.content)
       }).then(res => {
         if (res.code !== '2') {
-          this.$toast.success('报名成功')
+          this.$toast.success('报名成功, 请等待后台审核！')
           this.$router.push({
-            path: '/m1Index',
+            path: '/m1Index1',
             query: {
               id: this.$route.query.id
             }

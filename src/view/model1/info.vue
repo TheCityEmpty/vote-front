@@ -20,7 +20,7 @@
           <van-icon name="fire-o" class="icon" />
           <span>排名</span>
         </div>
-        <p class="chart-num">{{ $route.query.p }}</p>
+        <p class="chart-num">{{ info.top }}</p>
       </li>
     </ul>
     <div class="username" v-if="info.img">
@@ -99,7 +99,7 @@ export default {
   methods: {
     pay () {
       this.$router.push({
-        path: '/zs',
+        path: '/zs1',
         query: {
           id: this.$route.query.id,
           uid: this.$route.query.uid
@@ -123,8 +123,8 @@ export default {
         vote({
           activityId: this.$route.query.id,
           signUpUserId: this.$route.query.uid,
-          memberId: currentOpenId,
-          openId: currentMemberId,
+          memberId: currentMemberId,
+          openId: currentOpenId,
           // memberId: '1144236048440623104',
           // openId: 'o8FsW5hyOWqPad9s2cor5hA8O7-Y',
           diamondSum: this.diamondSum
@@ -156,8 +156,9 @@ export default {
         })
         return
       }
+      let mid = this.getCookie('memberId')
       queryMemberMsg({
-        id: '1144236048440623104'
+        id: mid
       }).then(res => {
         this.show = true
         this.userInfo = res.data
@@ -190,8 +191,8 @@ export default {
       vote({
         activityId: this.$route.query.id,
         signUpUserId: this.$route.query.uid,
-        memberId: currentOpenId,
-        openId: currentMemberId
+        memberId: currentMemberId,
+        openId: currentOpenId
       }).then(r => {
         if (r.code !== '2') {
           this.$toast.success('投票成功')
@@ -209,7 +210,7 @@ export default {
     },
     goto () {
       this.$router.push({
-        path: '/records',
+        path: '/records1',
         query: {
           id: this.$route.query.id
         }
@@ -219,7 +220,10 @@ export default {
       querySignUpUser({
         id: this.$route.query.uid
       }).then(res => {
-        this.info = res.data.signUpUser
+        this.info = {
+          ...res.data.signUpUser,
+          top: res.data.top
+        }
       })
     }
   },

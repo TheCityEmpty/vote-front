@@ -92,15 +92,15 @@ export default {
           // eslint-disable-next-line camelcase
           let { openid, memberId, access_token } = res.data
           // eslint-disable-next-line camelcase
-          if (!this.getCookie('openId')) {
-            this.setCookie('openId', openid, 365)
-          }
-          if (!this.getCookie('access_token')) {
-            this.setCookie('access_token', access_token, 365)
-          }
-          if (!this.getCookie('memberId')) {
-            this.setCookie('memberId', memberId, 365)
-          }
+          // if (!this.getCookie('openId')) {
+          this.setCookie('openId', openid, 365)
+          // }
+          // if (!this.getCookie('access_token')) {
+          this.setCookie('access_token', access_token, 365)
+          // }
+          // if (!this.getCookie('memberId')) {
+          this.setCookie('memberId', memberId, 365)
+          // }
         })
       }
     },
@@ -120,7 +120,7 @@ export default {
     },
     goto (uid, p) {
       this.$router.push({
-        path: '/info',
+        path: '/info1',
         query: {
           id: this.$route.query.id,
           uid: uid,

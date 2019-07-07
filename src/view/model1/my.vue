@@ -18,8 +18,9 @@ export default {
     }
   },
   created () {
+    let mid = this.getCookie('memberId')
     queryMemberMsg({
-      id: '1144236048440623104'
+      id: mid
     }).then(res => {
       this.userInfo = res.data
     })
@@ -39,7 +40,7 @@ export default {
     },
     pay () {
       this.$router.push({
-        path: '/zs',
+        path: '/zs1',
         query: {
           id: this.$route.query.id,
           uid: this.$route.query.uid

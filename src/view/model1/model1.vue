@@ -28,27 +28,27 @@ export default {
     return {
       footerList: [
         {
-          to: '/m1Index',
+          to: '/m1Index1',
           icon: 'wap-home',
           title: '首页'
         },
         {
-          to: '/gift',
+          to: '/gift1',
           icon: 'point-gift-o',
           title: '奖品'
         },
         {
-          to: '/records',
+          to: '/records1',
           icon: 'records',
           title: '报名'
         },
         {
-          to: '/chart',
+          to: '/chart1',
           icon: 'chart-trending-o',
           title: '榜单'
         },
         {
-          to: '/my',
+          to: '/my1',
           icon: 'manager-o',
           title: '我的'
         }
