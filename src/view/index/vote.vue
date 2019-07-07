@@ -79,9 +79,9 @@ export default {
     },
     getCode () {
       this.code = this.getUrlCode().code
-      // this.redirectUrl = window.location.href
+      this.redirectUrl = window.location.href
       if (!this.code) {
-        alert('当前没有code,appID' + this.appid)
+        // alert('当前没有code,appID' + this.appid)
         let href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5034eac230f45c1b&redirect_uri=${this.redirectUrl || window.location.href}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
         window.location.href = href
       } else {
@@ -91,7 +91,7 @@ export default {
           let { openid, memberId, access_token } = res.data
           alert(JSON.stringify(res.data))
           // eslint-disable-next-line camelcase
-          alert(openid + memberId + access_token)
+          // alert(openid + memberId + access_token)
           if (!this.getCookie('openId')) {
             this.setCookie('openId', openid, 365)
           }

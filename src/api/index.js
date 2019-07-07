@@ -1,22 +1,40 @@
 import http from '@/libs/axios'
 
-// 查看文章列表
-export const apiArtList = (params) => { return http.request({ url: '/getArticleList', params, method: 'get' }) }
-
-// 查看文章大标签
-export const getBigTips = (params) => { return http.request({ url: '/getBigTipList', params, method: 'get' }) }
-
-// 添加评论
-export const commented = (params) => { return http.request({ url: '/addComment', data: params, method: 'post' }) }
-
-// 置顶文章或取消置顶
-export const topControl = (params) => { return http.request({ url: '/isTopArt', data: params, method: 'post' }) }
-
-// 发布文章（或将文章状态改为草稿）
-export const releaseArticle = (params) => { return http.request({ url: '/releaseArticle', data: params, method: 'post' }) }
-
 // 微信获取用户资料
 export const getWeiXinUserInfo = (params) => { return http.request({ url: '/getMemberMsg', params, method: 'get' }) }
 
 // 微信支付
 export const weiXinPay = (params) => { return http.request({ url: '/weChatPay', data: params, method: 'post' }) }
+
+// 查询活动
+export const queryActivity = (params) => { return http.request({ url: '/queryActivity', params, method: 'get' }) }
+
+// 查询活动2
+export const selectActivityCase = (params) => {
+  return http.request({ url: '/selectActivityCase', data: params, method: 'post' })
+}
+
+// 查询报名人
+export const selectSignUpUserCase = (params) => {
+  return http.request({ url: '/querySignUpUserList', params, method: 'get' })
+}
+
+// 报名人条件搜索
+export const querySelecct = (params) => {
+  return http.request({ url: '/selectSignUpUserCase', data: params, method: 'post' })
+}
+
+// 报名
+export const createSignUpUser = (params) => {
+  return http.request({ url: '/createSignUpUser', data: params, method: 'post' })
+}
+
+// 查询报名人
+export const querySignUpUser = (params) => {
+  return http.request({ url: '/querySignUpUser', params, method: 'get' })
+}
+
+// 查询报名人
+export const vote = (params) => {
+  return http.request({ url: '/vote', data: params, method: 'post' })
+}

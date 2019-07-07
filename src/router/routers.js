@@ -17,6 +17,11 @@ export default [
         component: () => import('@/view/model1/model1.vue'),
         children: [
           {
+            path: '/info',
+            name: 'info',
+            component: () => import('@/view/model1/info.vue')
+          },
+          {
             path: '/gift',
             name: 'gift',
             component: () => import('@/view/model1/gift.vue')

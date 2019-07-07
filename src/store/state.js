@@ -1,3 +1,4 @@
 export default {
-  sideStatus: false
+  activeInfo: {},
+  globlLoading: false
 }

@@ -150,3 +150,25 @@ export const clearArrNull = (arr) => {
   }
   return arr.filter(item => item && item.trim())
 }
+
+// 将date 格式 转成 时间戳
+export const dateToTimeStamp = (date) => {
+  let dates = new Date(date)
+  return dates.getTime()
+}
+// 时间戳 格式 转成 date
+export const timeStampToDate = (timestamp) => {
+  // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+  const IS_MILLISECOND = isMillisecond(timestamp)
+  if (IS_MILLISECOND) Math.floor(timestamp /= 1000)
+  timestamp = Number(timestamp)
+
+  let date = new Date(timestamp * 1000)
+  let Y = date.getFullYear() + '-'
+  let M = getHandledValue(date.getMonth() + 1) + '-'
+  let D = getHandledValue(date.getDate()) + ' '
+  let h = getHandledValue(date.getHours()) + ':'
+  let m = getHandledValue(date.getMinutes()) + ':'
+  let s = getHandledValue(date.getSeconds())
+  return Y + M + D + h + m + s
+}

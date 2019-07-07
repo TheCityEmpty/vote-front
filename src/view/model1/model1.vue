@@ -1,7 +1,7 @@
 <template>
   <div class="model-home">
-    <van-notice-bar :text="text" class="customBar" left-icon="volume-o" />
-    <swiperBox :imgList="imgs"></swiperBox>
+    <van-notice-bar :text="$store.state.activeInfo.notice" class="customBar" left-icon="volume-o" />
+    <swiperBox :imgList="this.$store.state.activeInfo.adImg"></swiperBox>
     <router-view class="model-box" />
 
     <van-tabbar v-model="active">
@@ -10,7 +10,7 @@
 				:key="index"
 				:icon="item.icon"
 				replace
-				:to="item.to">{{ item.title }}</van-tabbar-item>
+				:to="{ path: item.to ,query: { id: $route.query.id }}">{{ item.title }}</van-tabbar-item>
     </van-tabbar>
   </div>
 
@@ -48,22 +48,17 @@ export default {
           title: '榜单'
         }
       ],
-      active: 0,
-      text: `平台最新福利：凡开启活动后每天排名第一名商家免费赠送价值1000元首页顶部滚轴广告推广一天，五天
-			活动中每天晚上23：30数据为准，次日9：00后开始更新。更加强而有力地增加曝光度和知名度！本活动为
-			公益评选，公平公正，免费参加，活动奖品均为真实，最终解释权归主办方所有！`,
-      imgs: [
-        {
-          imgUrl: require('@_img/1.jpg')
-        },
-        {
-          imgUrl: require('@_img/2.jpg')
-        },
-        {
-          imgUrl: require('@_img/1.png')
-        }
-      ]
+      active: 0
+    }
+  },
+
+  watch: {
+    '$store.state.activeInfo': {
+      deep: true,
+      handler (val) {
+      }
     }
   }
+
 }
 </script>

@@ -2,7 +2,7 @@
 	<div class="custom-swiper">
 		<swiper :options="swiperOption">
         <swiper-slide  class="my-swp-silde" v-for="(slide, key) in imgList" :key="key">
-            <img class="my-swp-img" :src="slide.imgUrl" alt="" style="width: 100%;">
+            <img class="my-swp-img" :src="slide" alt="" style="width: 100%;">
         </swiper-slide>
     </swiper>
 	</div>
@@ -39,6 +39,7 @@ export default {
 <style scoped>
 .custom-swiper {
 	width: 100%;
-	height: 260px;
+	height: 200px;
+  overflow: hidden;
 }
 </style>
