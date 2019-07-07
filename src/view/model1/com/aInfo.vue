@@ -191,8 +191,8 @@ export default {
     height: 40px;
     border: 1px solid #ccc;
     border-radius: 2px;
-    margin-right: 3px;
-    padding: 0 6px;
+		margin-right: 3px;
+		width: 30px;
 	}
 }
 </style>

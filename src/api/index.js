@@ -38,3 +38,8 @@ export const querySignUpUser = (params) => {
 export const vote = (params) => {
   return http.request({ url: '/vote', data: params, method: 'post' })
 }
+
+// 查询用户信息
+export const queryMemberMsg = (params) => {
+  return http.request({ url: '/queryMemberMsg', params, method: 'get' })
+}

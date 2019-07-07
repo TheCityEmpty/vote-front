@@ -13,8 +13,10 @@
 
       <div style="padding: 0 10px;"> <van-uploader :max-count="5" v-model="fileList" multiple /></div>
     </van-cell-group>
+    <div style="padding: 40px 10px 10px;">
+      <van-button type="danger" @click="signUp" :block="true" size="normal">报名</van-button>
+    </div>
 
-    <van-button type="danger" @click="signUp" :block="true" size="normal">报名</van-button>
   </div>
 </template>
 
@@ -82,6 +84,10 @@ export default {
     }
   },
   beforeCreate () {
+    if (Number(this.$store.state.activeInfo.signUpStatus) !== 1) {
+      this.$toast('该活动已结束，无法报名！')
+      this.$router.go(-1)
+    }
     this.$store.commit('setGloblLoading', true)
   },
   mounted () {

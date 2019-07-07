@@ -2,20 +2,30 @@ import index from '@/view/index.vue'
 
 export default [
   {
+    path: '/error',
+    name: 'error',
+    component: () => import('@/view/error.vue')
+  },
+  {
     path: '/',
     component: index,
     children: [
-      {
-        path: '/vote',
-        name: 'vote',
-        component: () => import('@/view/index/vote.vue')
-      },
       {
         path: '/model1',
         name: 'model1',
         redirect: '/m1Index',
         component: () => import('@/view/model1/model1.vue'),
         children: [
+          {
+            path: '/my',
+            name: 'my',
+            component: () => import('@/view/model1/my.vue')
+          },
+          {
+            path: '/zs',
+            name: 'zs',
+            component: () => import('@/view/model1/zs.vue')
+          },
           {
             path: '/info',
             name: 'info',

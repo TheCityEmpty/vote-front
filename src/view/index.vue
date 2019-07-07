@@ -16,15 +16,22 @@ export default {
     let id = to.query.id
     queryActivity({ id: id }).then(res => {
       let info = res.data
-      info.adImg = JSON.parse(info.adImg)
-      info.img = JSON.parse(info.img)
-      store.commit('setActiveInfo', res.data)
-      router.push({
-        path: `model${res.data.model}`,
-        query: {
-          id: id
-        }
-      })
+      if (Number(info.activityType) === 0) {
+        router.push({
+          path: '/error'
+        })
+      } else {
+        info.adImg = JSON.parse(info.adImg)
+        info.img = JSON.parse(info.img)
+        store.commit('setActiveInfo', res.data)
+        router.push({
+          path: `model${res.data.model}`,
+          query: {
+            id: id
+          }
+        })
+      }
+      document.title = info.name
     })
     next()
   },

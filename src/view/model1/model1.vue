@@ -1,7 +1,7 @@
 <template>
   <div class="model-home">
     <van-notice-bar :text="$store.state.activeInfo.notice" class="customBar" left-icon="volume-o" />
-    <swiperBox :imgList="this.$store.state.activeInfo.adImg"></swiperBox>
+    <swiperBox :imgList="$store.state.activeInfo.adImg"></swiperBox>
     <router-view class="model-box" />
 
     <van-tabbar v-model="active">
@@ -46,6 +46,11 @@ export default {
           to: '/chart',
           icon: 'chart-trending-o',
           title: '榜单'
+        },
+        {
+          to: '/my',
+          icon: 'manager-o',
+          title: '我的'
         }
       ],
       active: 0

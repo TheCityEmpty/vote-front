@@ -13,13 +13,6 @@ export default {
     Ainfo,
     editing
   },
-  data () {
-    return {
-      // aa: {
-      //   bb: 'asd'
-      // }
-    }
-  },
 
   beforeCreate () {
     this.$store.commit('setGloblLoading', true)
