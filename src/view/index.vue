@@ -24,23 +24,23 @@ export default {
         info.adImg = JSON.parse(info.adImg)
         info.img = JSON.parse(info.img)
         store.commit('setActiveInfo', res.data)
-        let path = ''
+        // let path = ''
 
-        if (to.path) {
-          if (to.name === 'info') {
-            path = `${to.path}${res.data.model}`
-          } else {
-            path = to.path
-          }
-        } else {
-          path = `model${res.data.model}`
-        }
-        router.push({
-          path: path,
-          query: {
-            id: id
-          }
-        })
+        // if (to.path) {
+        //   if (to.name === 'info') {
+        //     path = `${to.path}${res.data.model}`
+        //   } else {
+        //     path = to.path
+        //   }
+        // } else {
+        //   path = `model${res.data.model}`
+        // }
+        // router.push({
+        //   path: path,
+        //   query: {
+        //     id: id
+        //   }
+        // })
       }
       document.title = info.name
     })

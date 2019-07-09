@@ -13,7 +13,7 @@ export default [
       {
         path: '/model1',
         name: 'model1',
-        redirect: '/m1Index',
+        redirect: '/m1Index1',
         component: () => import('@/view/model1/model1.vue'),
         children: [
           {

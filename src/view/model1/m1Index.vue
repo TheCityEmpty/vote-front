@@ -57,7 +57,7 @@ export default {
     }, 400)
   },
   created () {
-    this.getCode()
+    // this.getCode()
     this.selectSignUpUserCase()
   },
 
@@ -123,8 +123,7 @@ export default {
         path: '/info1',
         query: {
           id: this.$route.query.id,
-          uid: uid,
-          p: p
+          uid: uid
         }
       })
     },
