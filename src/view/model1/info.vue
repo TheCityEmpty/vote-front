@@ -188,6 +188,7 @@ export default {
       }
       let currentOpenId = this.getCookie('openId')
       let currentMemberId = this.getCookie('memberId')
+      this.$store.commit('setGloblLoading', true)
       vote({
         activityId: this.$route.query.id,
         signUpUserId: this.$route.query.uid,
@@ -206,7 +207,7 @@ export default {
             this.$toast.fail('活动已结束')
           }
         }
-      })
+      }).finally(() => { this.$store.commit('setGloblLoading', false) })
     },
     goto () {
       this.$router.push({
