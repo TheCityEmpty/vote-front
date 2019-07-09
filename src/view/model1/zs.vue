@@ -7,38 +7,66 @@
 			<img src="@_img/zs.svg" />
 		</van-button>
 
-		<van-button plain type="danger" class="btn">
+		<van-button plain type="danger" class="btn" @click="handleWeChatPay(10)">
 			<span class="text">10</span>
 			<img src="@_img/zs.svg" />
 		</van-button>
 
-		<van-button plain type="danger" class="btn">
+		<van-button plain type="danger" class="btn" @click="handleWeChatPay(50)">
 			<span class="text">50</span>
 			<img src="@_img/zs.svg" />
 		</van-button>
 
-		<van-button plain type="danger" class="btn">
+		<van-button plain type="danger" class="btn" @click="handleWeChatPay(100)">
 			<span class="text">100</span>
 			<img src="@_img/zs.svg" />
 		</van-button>
 
-		<van-button plain type="danger" class="btn">
+		<van-button plain type="danger" class="btn" @click="handleWeChatPay(300)">
 			<span class="text">300</span>
 			<img src="@_img/zs.svg" />
 		</van-button>
 
-		<van-button plain type="danger" class="btn">
+		<van-button plain type="danger" class="btn" @click="handleWeChatPay(500)">
 			<span class="text">500</span>
 			<img src="@_img/zs.svg" />
 		</van-button>
 		</div>
+    <van-cell-group>
+       <van-field
+       type="number"
+        v-model="payMoeny"
+        label="其他:"
+        placeholder="请输入整数"
+    />
+    </van-cell-group>
+    <div style="padding: 40px 10px 10px;width: 100%;" v-show="payMoeny">
+      <van-button type="danger" @click="payMoenyTo" :block="true" size="normal">充值</van-button>
+    </div>
 	</div>
 </template>
 
 <script>
 import { weiXinPay } from '@/api'
 export default {
+  data () {
+    return {
+      payMoeny: null
+    }
+  },
   methods: {
+
+    payMoenyTo () {
+      if (this.payMoeny.indexOf('.') !== -1) {
+        this.$notify('请输入整数！')
+        return
+      }
+      if (this.payMoeny <= 0) {
+        this.$notify('请输入大于0的数！')
+        return
+      }
+      this.handleWeChatPay(this.payMoeny)
+    },
     getWXPayParams (m) {
       let currentOpenId = this.getCookie('openId')
       let currentMemberId = this.getCookie('memberId')
@@ -48,7 +76,7 @@ export default {
       let params = {
         openId: currentOpenId,
         memberId: currentMemberId,
-        toPay: '0.01'
+        toPay: m
       }
       return params
     },
@@ -114,7 +142,7 @@ export default {
             //   }
             // })
           } else {
-            alert('您取消了支付, 请重新点击支付')
+            alert('您取消了支付')
           }
         }
       )
