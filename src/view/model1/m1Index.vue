@@ -57,7 +57,7 @@ export default {
     }, 400)
   },
   created () {
-    // this.getCode()
+    this.getCode()
     this.selectSignUpUserCase()
   },
 
