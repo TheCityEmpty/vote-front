@@ -1,7 +1,7 @@
 <template>
   <div class="m1Index">
     <Ainfo></Ainfo>
-    <van-search v-model="value" placeholder="请输入姓名" show-action @search="querySelecct">
+    <van-search v-model="value" placeholder="请输入姓名或编号" show-action @search="querySelecct">
       <div slot="action" @click="querySelecct">搜索</div>
     </van-search>
     <div class="user-box">
@@ -31,7 +31,7 @@
 <script>
 import Ainfo from './com/aInfo.vue'
 import editing from './com/editing.vue'
-import { selectSignUpUserCase, querySelecct, getWeiXinUserInfo } from '@/api'
+import { selectSignUpUserCase, getWeiXinUserInfo, selectSignUpUserCaseForH5 } from '@/api'
 export default {
   components: {
     Ainfo,
@@ -128,9 +128,9 @@ export default {
       })
     },
     querySelecct () {
-      querySelecct({
+      selectSignUpUserCaseForH5({
         activityId: this.$route.query.id,
-        name: this.value,
+        queryText: this.value,
         page: 1,
         length: 10
       }).then(res => {

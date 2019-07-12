@@ -34,7 +34,7 @@ export const querySignUpUser = (params) => {
   return http.request({ url: '/querySignUpUser', params, method: 'get' })
 }
 
-// 查询报名人
+// 报名
 export const vote = (params) => {
   return http.request({ url: '/vote', data: params, method: 'post' })
 }
@@ -42,4 +42,9 @@ export const vote = (params) => {
 // 查询用户信息
 export const queryMemberMsg = (params) => {
   return http.request({ url: '/queryMemberMsg', params, method: 'get' })
+}
+
+// 按姓名和编号查询报名人
+export const selectSignUpUserCaseForH5 = (params) => {
+  return http.request({ url: '/selectSignUpUserCaseForH5', data: params, method: 'post' })
 }
