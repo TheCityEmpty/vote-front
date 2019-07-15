@@ -22,7 +22,12 @@
 
 <script>
 import { createSignUpUser } from '@/api'
+import { wxShowMenu } from '@/libs/wxShowMenu.js'
 export default {
+  beforeMount () {
+    let i = this.$store.state.activeInfo
+    wxShowMenu(i.name, i.content, window.location.href, i.img[0] || [])
+  },
   data () {
     return {
       name: '',

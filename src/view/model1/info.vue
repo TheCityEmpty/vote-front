@@ -62,17 +62,45 @@
       <p>或分享到朋友圈</p>
     </div>
 
-    <van-dialog :before-close="(action, done) => { this.beforeClose(action, done) }" v-model="show" title="礼物投票" show-cancel-button @confirm="confirm" @cancel="cancel">
+    <van-dialog v-model="show" title="礼物投票" :close-on-click-overlay="true" :show-cancel-button="true" :show-confirm-button="false">
 
       <p style="padding: 5px">给他投票：{{ info.userName }}</p>
-      <p style="padding: 5px">您的钻石余额：{{ userInfo.diamond }}</p>
-      <van-cell-group v-if="userInfo.diamond">
-        <van-field v-model="diamondSum" type="number" placeholder="输入您要送出的钻石数" />
-      </van-cell-group>
-			<p style="padding: 5px" v-if="userInfo.diamond">钻石兑票数：{{ diamondSum * 3 }}</p>
-			<p style="padding: 5px" v-if="!userInfo.diamond">您的砖石数为0， 请点击充值</p>
-      <div style="padding: 30px 10px;">
-        <van-button type="danger" @click="pay" :block="true" size="normal">充值投票</van-button>
+      <div class="zs" style="padding-top: 0px;">
+        <van-button plain type="danger" class="btn" @click="handleWeChatPay(1)">
+          <span class="text">1</span>
+          <img src="@_img/zs.svg" />
+        </van-button>
+
+        <van-button plain type="danger" class="btn" @click="handleWeChatPay(10)">
+          <span class="text">10</span>
+          <img src="@_img/zs.svg" />
+        </van-button>
+
+        <van-button plain type="danger" class="btn" @click="handleWeChatPay(50)">
+          <span class="text">50</span>
+          <img src="@_img/zs.svg" />
+        </van-button>
+
+        <van-button plain type="danger" class="btn" @click="handleWeChatPay(100)">
+          <span class="text">100</span>
+          <img src="@_img/zs.svg" />
+        </van-button>
+
+        <van-button plain type="danger" class="btn" @click="handleWeChatPay(300)">
+          <span class="text">300</span>
+          <img src="@_img/zs.svg" />
+        </van-button>
+
+        <van-button plain type="danger" class="btn" @click="handleWeChatPay(500)">
+          <span class="text">500</span>
+          <img src="@_img/zs.svg" />
+        </van-button>
+        <van-cell-group>
+          <van-field type="number" v-model="payMoeny" label="其他:" placeholder="请输入整数" />
+        </van-cell-group>
+        <div style="padding: 10px 10px 20px;;width: 100%;">
+          <van-button type="danger" @click="payMoenyTo" :block="true" size="normal">充值</van-button>
+        </div>
       </div>
 
     </van-dialog>
@@ -81,10 +109,12 @@
 </template>
 
 <script>
-import { querySignUpUser, vote, queryMemberMsg } from '@/api'
+import { querySignUpUser, vote, weiXinPay } from '@/api'
+import { wxShowMenu } from '@/libs/wxShowMenu.js'
 export default {
   data () {
     return {
+      payMoeny: null,
       diamondSum: null,
       userInfo: {},
       show: false,
@@ -97,58 +127,6 @@ export default {
   },
 
   methods: {
-    pay () {
-      this.$router.push({
-        path: '/zs1',
-        query: {
-          id: this.$route.query.id,
-          uid: this.$route.query.uid
-        }
-      })
-    },
-    beforeClose (action, done) {
-      if (this.flag) {
-        if (this.diamondSum === null) {
-          this.$notify('请输入钻石数量！')
-          done(false)
-          return
-        }
-        if (this.diamondSum >= this.userInfo.diamond) {
-          this.$notify('您没有这么多的钻石数，可点击充值增加！')
-          done(false)
-          return
-        }
-        let currentOpenId = this.getCookie('openId')
-        let currentMemberId = this.getCookie('memberId')
-        vote({
-          activityId: this.$route.query.id,
-          signUpUserId: this.$route.query.uid,
-          memberId: currentMemberId,
-          openId: currentOpenId,
-          // memberId: '1144236048440623104',
-          // openId: 'o8FsW5hyOWqPad9s2cor5hA8O7-Y',
-          diamondSum: this.diamondSum
-        }).then(r => {
-          if (r.code !== '2') {
-            done()
-            this.$dialog.alert({
-              message: '投票成功, 已为他投了' + this.diamondSum * 3 + '票'
-            })
-            this.querySignUpUser()
-          } else {
-            this.$toast.fail('投票失败')
-          }
-        })
-      } else {
-        done()
-      }
-    },
-    cancel () {
-      this.flag = false
-    },
-    confirm () {
-      this.flag = true
-    },
     gotoZS () {
       if (Number(this.$store.state.activeInfo.activityStatus) === 2) {
         this.$dialog.alert({
@@ -156,13 +134,7 @@ export default {
         })
         return
       }
-      let mid = this.getCookie('memberId')
-      queryMemberMsg({
-        id: mid
-      }).then(res => {
-        this.show = true
-        this.userInfo = res.data
-      })
+      this.show = true
     },
     getCookie (name) {
       if (document.cookie.length > 0) {
@@ -188,6 +160,10 @@ export default {
       }
       let currentOpenId = this.getCookie('openId')
       let currentMemberId = this.getCookie('memberId')
+      if (!currentOpenId && !currentMemberId) {
+        alert('用户信息未获取到！')
+        return
+      }
       this.$store.commit('setGloblLoading', true)
       vote({
         activityId: this.$route.query.id,
@@ -225,7 +201,113 @@ export default {
           ...res.data.signUpUser,
           top: res.data.top
         }
+        wxShowMenu(
+          `我是${this.info.userName},编号${this.info.num},正在参加-${res.data.activityName}`,
+          `投票主题：${res.data.activityName}`,
+          window.location.href,
+          JSON.parse(this.info.img || '[]')[0])
       })
+    },
+
+    payMoenyTo () {
+      if (this.payMoeny.indexOf('.') !== -1) {
+        this.$notify('请输入整数！')
+        return
+      }
+      if (this.payMoeny <= 0) {
+        this.$notify('请输入大于0的数！')
+        return
+      }
+      this.handleWeChatPay(this.payMoeny)
+    },
+    getWXPayParams (m) {
+      let currentOpenId = this.getCookie('openId')
+      let currentMemberId = this.getCookie('memberId')
+      if (!currentOpenId || !currentMemberId) {
+        return
+      }
+      let params = {
+        openId: currentOpenId,
+        memberId: currentMemberId,
+        toPay: m
+      }
+      return params
+    },
+
+    handleWeChatPay (m) {
+      let params = this.getWXPayParams(m)
+      if (!params) {
+        return
+      }
+      if (params.toPay <= 0) {
+        alert('支付异常')
+      }
+      weiXinPay(params).then(res => {
+        let payObj = {
+          appId: res.data.appId,
+          timeStamp: res.data.timeStamp,
+          nonceStr: res.data.nonceStr,
+          package: res.data.package,
+          signType: 'MD5',
+          paySign: res.data.sign
+        }
+        this.begain_wxpay(payObj, m)
+      }).catch(error => {
+        alert(error)
+      })
+    },
+
+    begain_wxpay (data, m) {
+      if (typeof WeixinJSBridge === 'undefined') {
+        if (document.addEventListener) {
+          document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false)
+        } else if (document.attachEvent) {
+          document.attachEvent('WeixinJSBridgeReady', this.jsApiCall)
+          document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall)
+        }
+      } else {
+        this.jsApiCall(data, m)
+      }
+    },
+
+    jsApiCall (params, m) {
+      let that = this
+      // eslint-disable-next-line no-undef
+      WeixinJSBridge.invoke(
+        'getBrandWCPayRequest', params,
+        function (res) {
+          if (res.err_msg === 'get_brand_wcpay_request:ok') {
+            let currentOpenId = that.getCookie('openId')
+            let currentMemberId = that.getCookie('memberId')
+            vote({
+              activityId: that.$route.query.id,
+              signUpUserId: that.$route.query.uid,
+              memberId: currentMemberId,
+              openId: currentOpenId,
+              diamondSum: 1
+            }).then(r => {
+              if (r.code !== '2') {
+                // that.show = false
+                that.$dialog.alert({
+                  message: '投票成功, 已为他投了' + m * 3 + '票'
+                })
+                that.querySignUpUser()
+              } else {
+                that.$toast.fail('投票失败')
+              }
+            })
+          } else {
+            alert('您取消了支付')
+          }
+        }
+      )
+    },
+
+    setCookie (name, value, expiredays) {
+      var exdate = new Date()
+      exdate.setDate(exdate.getDate() + expiredays)
+      document.cookie = name + '=' + escape(value) +
+((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
     }
   },
   created () {
@@ -243,6 +325,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title {
+	width: 100%;
+	font-weight: 600;
+	font-size: 18px;
+	text-align: center;
+	position: relative;
+	&::before {
+		content: '';
+    position: absolute;
+    width: 50px;
+    height: 1px;
+    background-color: #333;
+    bottom: -5px;
+    left: 50%;
+    margin-left: -25px;
+	}
+}
+.zs {
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	.btn {
+		width: 70px;
+    height: 30px;
+		display: inline-block;
+		padding: 0 5px;
+		border-color: #59a0de;
+		margin: 10px;
+	}
+	.text {
+		font-size: 14px;
+		font-weight: 600;
+		color: #59a0de;
+	}
+	img {
+	width: 25px;
+    height: 25px;
+    margin-left: 5px;
+	}
+}
 .fxa {
 	position: fixed;
 	width: 100%;

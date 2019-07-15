@@ -48,3 +48,8 @@ export const queryMemberMsg = (params) => {
 export const selectSignUpUserCaseForH5 = (params) => {
   return http.request({ url: '/selectSignUpUserCaseForH5', data: params, method: 'post' })
 }
+
+// 获取 分享 参数
+export const getJsApiMsg = (params) => {
+  return http.request({ url: '/getJsApiMsg', params, method: 'get' })
+}

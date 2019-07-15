@@ -32,7 +32,17 @@
 import Ainfo from './com/aInfo.vue'
 import editing from './com/editing.vue'
 import { selectSignUpUserCase, getWeiXinUserInfo, selectSignUpUserCaseForH5 } from '@/api'
+import { wxShowMenu } from '@/libs/wxShowMenu.js'
 export default {
+  watch: {
+    '$store.state.activeInfo': {
+      deep: true,
+      handler (val) {
+        console.log(val)
+        wxShowMenu(val.name, val.content, window.location.href, val.img[0] || [])
+      }
+    }
+  },
   components: {
     Ainfo,
     editing
@@ -62,6 +72,7 @@ export default {
   },
 
   methods: {
+
     setCookie (name, value, expiredays) {
       var exdate = new Date()
       exdate.setDate(exdate.getDate() + expiredays)
@@ -128,12 +139,22 @@ export default {
       })
     },
     querySelecct () {
-      selectSignUpUserCaseForH5({
-        activityId: this.$route.query.id,
-        queryText: this.value,
-        page: 1,
-        length: 10
-      }).then(res => {
+      let p = {}
+      if (this.value) {
+        p = {
+          activityId: this.$route.query.id,
+          queryText: this.value,
+          page: 1,
+          length: 10
+        }
+      } else {
+        p = {
+          activityId: this.$route.query.id,
+          page: 1,
+          length: 10
+        }
+      }
+      selectSignUpUserCaseForH5(p).then(res => {
         let result = res.data.list
         this.total = res.data.totalRows
         this.userList = (result || []).map(item => {

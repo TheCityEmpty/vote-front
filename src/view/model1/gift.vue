@@ -8,7 +8,12 @@
 <script>
 import Ainfo from './com/aInfo.vue'
 import editing from './com/editing.vue'
+import { wxShowMenu } from '@/libs/wxShowMenu.js'
 export default {
+  beforeMount () {
+    let i = this.$store.state.activeInfo
+    wxShowMenu(i.name, i.content, window.location.href, i.img[0] || [])
+  },
   components: {
     Ainfo,
     editing

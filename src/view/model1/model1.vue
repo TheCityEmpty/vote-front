@@ -46,22 +46,14 @@ export default {
           to: '/chart1',
           icon: 'chart-trending-o',
           title: '榜单'
-        },
-        {
-          to: '/my1',
-          icon: 'manager-o',
-          title: '我的'
         }
+        // {
+        //   to: '/my1',
+        //   icon: 'manager-o',
+        //   title: '我的'
+        // }
       ],
       active: 0
-    }
-  },
-
-  watch: {
-    '$store.state.activeInfo': {
-      deep: true,
-      handler (val) {
-      }
     }
   }
 
