@@ -31,9 +31,10 @@
       <van-icon name="home-o" style="vertical-align: sub;font-size: 18px;" />
       地址：{{ info.address }}
     </p>
-    <div v-if="info.img" style="padding: 10px;">
-      <img :src="JSON.parse(info.img)[0]" />
+    <div v-if="info.img" >
+      <img v-for="(item, index) in JSON.parse(info.img)" :key="index" :src="item" style="padding: 10px 10px 0 10px;" />
     </div>
+    <editing title="我的宣言" style="margin-top: 20px;" :content="info.content"></editing>
     <div style="padding: 10px;">
       <van-button type="danger" :block="true" size="normal" @click="goto">我要报名</van-button>
     </div>
@@ -111,7 +112,11 @@
 <script>
 import { querySignUpUser, vote, weiXinPay } from '@/api'
 import { wxShowMenu } from '@/libs/wxShowMenu.js'
+import editing from './com/editing.vue'
 export default {
+  components: {
+    editing
+  },
   data () {
     return {
       payMoeny: null,
