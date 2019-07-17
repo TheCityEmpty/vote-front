@@ -34,7 +34,7 @@
     <div v-if="info.img" >
       <img v-for="(item, index) in JSON.parse(info.img)" :key="index" :src="item" style="padding: 10px 10px 0 10px;" />
     </div>
-    <editing title="我的宣言" style="margin-top: 20px;" :content="info.content"></editing>
+    <editing title="我的宣言" v-if="info.content" style="margin-top: 20px;" :content="info.content"></editing>
     <div style="padding: 10px;">
       <van-button type="danger" :block="true" size="normal" @click="goto">我要报名</van-button>
     </div>
@@ -106,6 +106,18 @@
 
     </van-dialog>
 
+    <div :class="vaoteSuccessStatus ? 'voteSuccess vsShow': 'voteSuccess'">
+      <p class="text">亲，投票成功啦！</p>
+      <img src="@_img/zs.svg" />
+      <p class="text">亲，再送我个砖石呗！</p>
+      <div style="text-align: center;margin-bottom: 20px;">
+        <van-button @click="gotoZS(true)" type="primary" style="width: 130px;" class="bbtn">送砖石</van-button>
+      </div>
+      <div style="text-align: center;">
+        <van-button type="default" style="width: 130px;" class="bbtn" @click="vaoteSuccessStatus = false">返回活动</van-button>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -119,6 +131,7 @@ export default {
   },
   data () {
     return {
+      vaoteSuccessStatus: false,
       payMoeny: null,
       diamondSum: null,
       userInfo: {},
@@ -132,12 +145,15 @@ export default {
   },
 
   methods: {
-    gotoZS () {
+    gotoZS (f) {
       if (Number(this.$store.state.activeInfo.activityStatus) === 2) {
         this.$dialog.alert({
           message: '该活动已结束，无法投票！'
         })
         return
+      }
+      if (f) {
+        this.vaoteSuccessStatus = false
       }
       this.show = true
     },
@@ -161,7 +177,6 @@ export default {
         this.$dialog.alert({
           message: '该活动已结束，无法投票！'
         })
-        return
       }
       let currentOpenId = this.getCookie('openId')
       let currentMemberId = this.getCookie('memberId')
@@ -177,7 +192,7 @@ export default {
         openId: currentOpenId
       }).then(r => {
         if (r.code !== '2') {
-          this.$toast.success('投票成功')
+          this.vaoteSuccessStatus = true
           this.querySignUpUser()
         } else {
           if (r.content === '您今天的免费票以为该活动的某位小主投过票了哦，可以礼物支持呀') {
@@ -215,6 +230,10 @@ export default {
     },
 
     payMoenyTo () {
+      if (this.payMoeny === null) {
+        this.$notify('请输入您要充值的金额！')
+        return
+      }
       if (this.payMoeny.indexOf('.') !== -1) {
         this.$notify('请输入整数！')
         return
@@ -330,6 +349,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.vsShow.voteSuccess {
+ top: 0;
+ opacity: 1;
+}
+.voteSuccess {
+
+  position: fixed;
+  top: -999px;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #fff;
+  padding: 40px 30px 0;
+  z-index: 99;
+  text-align: center;
+  box-sizing: border-box;
+  transition: all 0.3s;
+  opacity: 0;
+  img {
+    width: 100px;
+    height: 100px;
+  }
+  .text {
+    text-align: center;
+    font-size: 16px;
+    padding: 20px 0;
+  }
+  .bbtn {
+    span {
+      font-size: 16px;
+      letter-spacing: 2px;;
+    }
+  }
+}
 .title {
 	width: 100%;
 	font-weight: 600;
