@@ -1,7 +1,7 @@
 <template>
   <div class="m1Index">
     <Ainfo></Ainfo>
-    <van-search v-model="value" placeholder="请输入姓名或编号" show-action @search="querySelecct">
+    <van-search v-model="value" placeholder="请输入编号搜索" show-action @search="querySelecct">
       <div slot="action" @click="querySelecct">搜索</div>
     </van-search>
     <div class="user-box">

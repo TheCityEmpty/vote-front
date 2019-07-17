@@ -60,7 +60,7 @@ export default {
     }
   },
 
-  created () {
+  beforeCreate () {
     this.getCode()
   },
 
