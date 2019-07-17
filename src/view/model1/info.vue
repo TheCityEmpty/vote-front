@@ -109,9 +109,9 @@
     <div :class="vaoteSuccessStatus ? 'voteSuccess vsShow': 'voteSuccess'">
       <p class="text">亲，投票成功啦！</p>
       <img src="@_img/zs.svg" />
-      <p class="text">亲，再送我个砖石呗！</p>
+      <p class="text">亲，再送我个钻石呗！</p>
       <div style="text-align: center;margin-bottom: 20px;">
-        <van-button @click="gotoZS(true)" type="primary" style="width: 130px;" class="bbtn">送砖石</van-button>
+        <van-button @click="gotoZS(true)" type="primary" style="width: 130px;" class="bbtn">送钻石</van-button>
       </div>
       <div style="text-align: center;">
         <van-button type="default" style="width: 130px;" class="bbtn" @click="vaoteSuccessStatus = false">返回活动</van-button>
