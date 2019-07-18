@@ -7,14 +7,13 @@
 
 <script>
 import router from '@/router'
-import { queryActivity } from '@/api'
+import { queryActivity, addVisits } from '@/api'
 import store from '../store'
 export default {
   name: 'App',
   beforeRouteEnter (to, from, next) {
     let id = to.query.id
     queryActivity({ id: id }).then(res => {
-      console.log('aa')
       let info = res.data
       if (Number(info.activityType) === 0) {
         router.push({
@@ -44,6 +43,8 @@ export default {
       }
       document.title = info.name
     })
+
+    addVisits({ activityId: id })
     next()
   }
 }

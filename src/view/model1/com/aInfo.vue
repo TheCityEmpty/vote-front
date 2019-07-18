@@ -15,6 +15,13 @@
 				</div>
 				<p class="chart-num">{{ voteNum }}</p>
 			</li>
+			<li>
+				<div class="chart-top">
+					<van-icon name="eye-o" class="icon" />
+					<span>访问量</span>
+				</div>
+				<p class="chart-num">{{ visterNum }}</p>
+			</li>
 		</ul>
 		<div class="atime">
 			<p class="title">活动结束倒计时</p>
@@ -57,7 +64,8 @@ export default {
       h: '',
       m: '',
       s: '',
-      timer: null
+      timer: null,
+      visterNum: 0
     }
   },
 
@@ -112,6 +120,7 @@ export default {
     selectActivityCase({ id: this.$route.query.id, page: 1, length: 1 }).then(res => {
       this.voteNum = res.data.list[0].voteSum
       this.signUpNum = res.data.list[0].signUpSum
+      this.visterNum = res.data.list[0].activity.visits
     })
 
     if (this.$store.state.activeInfo !== '{}') {

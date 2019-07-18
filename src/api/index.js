@@ -53,3 +53,7 @@ export const selectSignUpUserCaseForH5 = (params) => {
 export const getJsApiMsg = (params) => {
   return http.request({ url: '/getJsApiMsg', params, method: 'get' })
 }
+// 新增访问量
+export const addVisits = (params) => {
+  return http.request({ url: '/addVisits', params, method: 'get' })
+}
