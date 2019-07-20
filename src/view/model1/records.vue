@@ -1,6 +1,6 @@
 <template>
   <div class="records" style="padding: 20px 0;">
-    <van-cell-group>
+    <van-cell-group v-if="Number(this.$store.state.activeInfo.signUpStatus) === 1">
       <van-field v-model="name" required  label="用户名" placeholder="请输入姓名" />
 
       <van-field v-model="phone" required label="手机号码" placeholder="请输入手机号码" />
@@ -13,8 +13,12 @@
 
       <div style="padding: 0 10px;"> <van-uploader :max-count="5" v-model="fileList" multiple /></div>
     </van-cell-group>
-    <div style="padding: 40px 10px 10px;">
+    <div style="padding: 40px 10px 10px;" v-if="Number(this.$store.state.activeInfo.signUpStatus) === 1">
       <van-button type="danger" @click="signUp" :block="true" size="normal">报名</van-button>
+    </div>
+
+    <div v-if="Number(this.$store.state.activeInfo.signUpStatus) !== 1" style="    text-align: center;font-size: 18px;">
+      该活动暂时无法报名，请联系管理员！
     </div>
 
   </div>
@@ -90,8 +94,8 @@ export default {
   },
   beforeCreate () {
     if (Number(this.$store.state.activeInfo.signUpStatus) !== 1) {
-      this.$toast('该活动已结束，无法报名！')
-      this.$router.go(-1)
+      // this.$toast('该活动无法报名！')
+      // this.$router.go(-1)
     }
     this.$store.commit('setGloblLoading', true)
   },

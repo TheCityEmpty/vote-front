@@ -60,19 +60,27 @@ export default {
     }
   },
 
-  beforeCreate () {
+  mounted () {
     this.getCode()
   },
 
   methods: {
     getCode () {
+      // alert('获取用户信息,openId：' + this.getCookie('openId'))
+      if (String(this.getCookie('openId')) !== 'undefined' && this.getCookie('openId')) {
+        return
+      }
       this.code = this.getUrlCode().code
-      this.redirectUrl = window.location.href
+      let h = window.location.href
+      this.redirectUrl = h.replace('&', '%26')
+      // alert(h)
+      // alert(h.replace('&', '%26'))
       if (!this.code) {
         let href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5034eac230f45c1b&redirect_uri=${this.redirectUrl || window.location.href}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
         window.location.href = href
       } else {
         getWeiXinUserInfo({ code: this.code }).then(res => {
+          // alert(JSON.stringify(res))
           // eslint-disable-next-line camelcase
           let { openid, memberId, access_token } = res.data
           // eslint-disable-next-line camelcase
@@ -85,6 +93,12 @@ export default {
           // if (!this.getCookie('memberId')) {
           this.setCookie('memberId', memberId, 365)
           // }
+          // let p = {
+          //   openId: this.getCookie('openId'),
+          //   memberId: this.getCookie('memberId'),
+          //   access_token: this.getCookie('access_token')
+          // }
+          // alert(JSON.stringify(p))
         })
       }
     },
@@ -101,26 +115,27 @@ export default {
         }
       }
       return theRequest
-    }
-  },
-  setCookie (name, value, expiredays) {
-    var exdate = new Date()
-    exdate.setDate(exdate.getDate() + expiredays)
-    document.cookie = name + '=' + escape(value) +
+    },
+    setCookie (name, value, expiredays) {
+      var exdate = new Date()
+      exdate.setDate(exdate.getDate() + expiredays)
+      document.cookie = name + '=' + escape(value) +
 ((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
-  },
+    },
 
-  getCookie (name) {
-    if (document.cookie.length > 0) {
-      let start = document.cookie.indexOf(name + '=')
-      if (start !== -1) {
-        start = start + name.length + 1
-        let end = document.cookie.indexOf(';', start)
-        if (end === -1) end = document.cookie.length
-        return unescape(document.cookie.substring(start, end))
+    getCookie (name) {
+      if (document.cookie.length > 0) {
+        let start = document.cookie.indexOf(name + '=')
+        if (start !== -1) {
+          start = start + name.length + 1
+          let end = document.cookie.indexOf(';', start)
+          if (end === -1) end = document.cookie.length
+          return unescape(document.cookie.substring(start, end))
+        }
       }
+      return ''
     }
-    return ''
+
   }
 
 }

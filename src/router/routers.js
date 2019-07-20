@@ -17,16 +17,6 @@ export default [
         component: () => import('@/view/model1/model1.vue'),
         children: [
           {
-            path: '/my1',
-            name: 'my1',
-            component: () => import('@/view/model1/my.vue')
-          },
-          {
-            path: '/zs1',
-            name: 'zs1',
-            component: () => import('@/view/model1/zs.vue')
-          },
-          {
             path: '/info1',
             name: 'info1',
             component: () => import('@/view/model1/info.vue')

@@ -65,11 +65,37 @@ export default {
     }, 400)
   },
   created () {
+    // this.getCode()
     this.selectSignUpUserCase()
   },
 
   methods: {
-
+    // getCode () {
+    //   this.code = this.getUrlCode().code
+    //   let h = window.location.href
+    //   this.redirectUrl = String(h).replace('&', '%26')
+    //   alert(h)
+    //   alert(String(h).replace('&', '%26'))
+    //   if (!this.code) {
+    //     let href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5034eac230f45c1b&redirect_uri=${this.redirectUrl || window.location.href}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
+    //     window.location.href = href
+    //   } else {
+    //     getWeiXinUserInfo({ code: this.code }).then(res => {
+    //       // eslint-disable-next-line camelcase
+    //       let { openid, memberId, access_token } = res.data
+    //       // eslint-disable-next-line camelcase
+    //       // if (!this.getCookie('openId')) {
+    //       this.setCookie('openId', openid, 365)
+    //       // }
+    //       // if (!this.getCookie('access_token')) {
+    //       this.setCookie('access_token', access_token, 365)
+    //       // }
+    //       // if (!this.getCookie('memberId')) {
+    //       this.setCookie('memberId', memberId, 365)
+    //       // }
+    //     })
+    //   }
+    // },
     goto (uid, p) {
       this.$router.push({
         path: '/info1',

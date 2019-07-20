@@ -12,7 +12,13 @@ import store from '../store'
 export default {
   name: 'App',
   beforeRouteEnter (to, from, next) {
+    console.log('aa')
     let id = to.query.id
+    if (!id) {
+      alert('该活动不存在！')
+      next()
+      return
+    }
     queryActivity({ id: id }).then(res => {
       let info = res.data
       if (Number(info.activityType) === 0) {
@@ -23,23 +29,6 @@ export default {
         info.adImg = JSON.parse(info.adImg)
         info.img = JSON.parse(info.img)
         store.commit('setActiveInfo', res.data)
-        // let path = ''
-
-        // if (to.path) {
-        //   if (to.name === 'info') {
-        //     path = `${to.path}${res.data.model}`
-        //   } else {
-        //     path = to.path
-        //   }
-        // } else {
-        //   path = `model${res.data.model}`
-        // }
-        // router.push({
-        //   path: path,
-        //   query: {
-        //     id: id
-        //   }
-        // })
       }
       document.title = info.name
     })

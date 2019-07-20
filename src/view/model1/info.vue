@@ -180,6 +180,11 @@ export default {
       }
       let currentOpenId = this.getCookie('openId')
       let currentMemberId = this.getCookie('memberId')
+      // let pp = {
+      //   currentOpenId: currentOpenId,
+      //   currentMemberId: currentMemberId
+      // }
+      // alert(JSON.stringify(pp))
       if (!currentOpenId && !currentMemberId) {
         alert('用户信息未获取到！')
         return
