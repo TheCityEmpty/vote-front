@@ -237,11 +237,11 @@ export default {
         this.$notify('请输入整数！')
         return
       }
-      if (this.payMoeny <= 0) {
-        this.$notify('请输入大于0的数！')
+      if (this.payMoeny <= 3) {
+        this.$notify('最小票数为3票！')
         return
       }
-      this.handleWeChatPay(this.payMoeny)
+      this.handleWeChatPay(Math.floor(this.payMoeny / 3))
     },
     getWXPayParams (m) {
       let currentOpenId = this.getCookie('openId')
@@ -252,7 +252,7 @@ export default {
       let params = {
         openId: currentOpenId,
         memberId: currentMemberId,
-        toPay: Math.floor(m / 3)
+        toPay: m
       }
       return params
     },
