@@ -45,7 +45,7 @@
           <img src="@_img/zs.svg" />
         </span>
 
-        <p>送钻石</p>
+        <p>送礼物</p>
       </div>
       <div class="btn" @click="vote">
         <van-icon name="like-o" class="icon" />
@@ -68,39 +68,33 @@
       <p style="padding: 5px">给他投票：{{ info.userName }}</p>
       <div class="zs" style="padding-top: 0px;">
         <van-button plain type="danger" class="btn" @click="handleWeChatPay(1)">
-          <span class="text">1</span>
-          <img src="@_img/zs.svg" />
+          <span class="text">{{ 1* 3}}票</span>
         </van-button>
 
         <van-button plain type="danger" class="btn" @click="handleWeChatPay(10)">
-          <span class="text">10</span>
-          <img src="@_img/zs.svg" />
+          <span class="text">{{ 10* 3}}票</span>
         </van-button>
 
         <van-button plain type="danger" class="btn" @click="handleWeChatPay(50)">
-          <span class="text">50</span>
-          <img src="@_img/zs.svg" />
+          <span class="text">{{ 50* 3}}票</span>
         </van-button>
 
         <van-button plain type="danger" class="btn" @click="handleWeChatPay(100)">
-          <span class="text">100</span>
-          <img src="@_img/zs.svg" />
+          <span class="text">{{ 100* 3}}票</span>
         </van-button>
 
         <van-button plain type="danger" class="btn" @click="handleWeChatPay(300)">
-          <span class="text">300</span>
-          <img src="@_img/zs.svg" />
+          <span class="text">{{ 300* 3}}票</span>
         </van-button>
 
         <van-button plain type="danger" class="btn" @click="handleWeChatPay(500)">
-          <span class="text">500</span>
-          <img src="@_img/zs.svg" />
+          <span class="text">{{ 500* 3}}票</span>
         </van-button>
         <van-cell-group>
-          <van-field type="number" v-model="payMoeny" label="其他:" placeholder="请输入整数" />
+          <van-field type="number" v-model="payMoeny" label="自定义:" placeholder="请输入您要送的票数" />
         </van-cell-group>
-        <div style="padding: 10px 10px 20px;;width: 100%;">
-          <van-button type="danger" @click="payMoenyTo" :block="true" size="normal">充值</van-button>
+        <div style="padding: 10px 10px 20px;;width: 100%;" v-if="payMoeny">
+          <van-button type="danger" @click="payMoenyTo" :block="true" size="normal">送票数</van-button>
         </div>
       </div>
 
@@ -109,9 +103,9 @@
     <div :class="vaoteSuccessStatus ? 'voteSuccess vsShow': 'voteSuccess'">
       <p class="text">亲，投票成功啦！</p>
       <img src="@_img/zs.svg" />
-      <p class="text">亲，再送我个钻石呗！</p>
+      <p class="text">亲，再送我个礼物呗！</p>
       <div style="text-align: center;margin-bottom: 20px;">
-        <van-button @click="gotoZS(true)" type="primary" style="width: 130px;" class="bbtn">送钻石</van-button>
+        <van-button @click="gotoZS(true)" type="primary" style="width: 130px;" class="bbtn">送礼物</van-button>
       </div>
       <div style="text-align: center;">
         <van-button type="default" style="width: 130px;" class="bbtn" @click="vaoteSuccessStatus = false">返回活动</van-button>
@@ -236,7 +230,7 @@ export default {
 
     payMoenyTo () {
       if (this.payMoeny === null) {
-        this.$notify('请输入您要充值的金额！')
+        this.$notify('请输入您要送的票数！')
         return
       }
       if (this.payMoeny.indexOf('.') !== -1) {
@@ -258,7 +252,7 @@ export default {
       let params = {
         openId: currentOpenId,
         memberId: currentMemberId,
-        toPay: m
+        toPay: Math.floor(m / 3)
       }
       return params
     },
@@ -316,9 +310,8 @@ export default {
               diamondSum: 1
             }).then(r => {
               if (r.code !== '2') {
-                // that.show = false
                 that.$dialog.alert({
-                  message: '投票成功, 已为他投了' + m * 3 + '票'
+                  message: '投票成功, 已为他投了' + m + '票'
                 })
                 that.querySignUpUser()
               } else {
@@ -407,17 +400,19 @@ export default {
 }
 .zs {
 	display: flex;
-	justify-content: flex-start;
+	justify-content: space-around;
 	flex-wrap: wrap;
 	.btn {
 		width: 70px;
-    height: 30px;
+    height: 70px;
 		display: inline-block;
 		padding: 0 5px;
 		border-color: #59a0de;
 		margin: 10px;
-	}
-	.text {
+    border-radius: 50%;
+    border: 1px solid #59a0de;
+  }
+  .text  {
 		font-size: 14px;
 		font-weight: 600;
 		color: #59a0de;
