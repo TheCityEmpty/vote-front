@@ -307,11 +307,11 @@ export default {
               signUpUserId: that.$route.query.uid,
               memberId: currentMemberId,
               openId: currentOpenId,
-              diamondSum: 1
+              diamondSum: m
             }).then(r => {
               if (r.code !== '2') {
                 that.$dialog.alert({
-                  message: '投票成功, 已为他投了' + m + '票'
+                  message: '投票成功, 已为他投了' + m * 3 + '票'
                 })
                 that.querySignUpUser()
               } else {
