@@ -39,6 +39,12 @@ export default {
       deep: true,
       handler (val) {
         console.log(val)
+        if (String(val.activityStatus) === '2') {
+          this.$notify({
+            message: '活动已结束',
+            duration: 0
+          })
+        }
         wxShowMenu(val.name, val.content, window.location.href, val.img[0] || [])
       }
     }
